@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% set active = 'iptables' %}
+{% block title %}规则查看{% endblock %}
+{% block page_title %}规则查看{% endblock %}
+{% block breadcrumb %}规则查看 / iptables 与 ip6tables{% endblock %}
+{% block content %}
+<div class="toolbar">
+    <button class="btn btn-success" onclick="panel.applyRules()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+        重新应用规则
+    </button>
+    <button class="btn btn-ghost" onclick="panel.loadIptables()">刷新</button>
+</div>
+
+<div class="dashboard-row">
+    <div class="card panel-info">
+        <h3 class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4H20V10H4Z"/><path d="M4 14H20V20H4Z"/><path d="M8 10V14"/><path d="M16 10V14"/></svg>
+            iptables (IP2FREE_AUTO)
+        </h3>
+        <div class="rule-status" id="iptables-status">--</div>
+        <pre class="pre-block rule-pre" id="iptables-output">加载中...</pre>
+    </div>
+
+    <div class="card panel-info">
+        <h3 class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4H20V10H4Z"/><path d="M4 14H20V20H4Z"/><path d="M8 10V14"/><path d="M16 10V14"/></svg>
+            ip6tables (IPV6_BLOCK_GOOGLE)
+        </h3>
+        <div class="rule-status" id="ip6tables-status">--</div>
+        <pre class="pre-block rule-pre" id="ip6tables-output">加载中...</pre>
+    </div>
+</div>
+
+<div class="card">
+    <h3 class="card-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4H16L20 8V20H4Z"/><path d="M16 4V8H20"/><path d="M8 12H16"/><path d="M8 16H13"/></svg>
+        redsocks 配置
+    </h3>
+    <pre class="pre-block" id="redsocks-output">加载中...</pre>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>panel.initIptables();</script>
+{% endblock %}

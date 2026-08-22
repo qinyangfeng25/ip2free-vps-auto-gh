@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% set active = 'domains' %}
+{% block title %}域名规则{% endblock %}
+{% block page_title %}域名规则{% endblock %}
+{% block breadcrumb %}域名规则 / 按域名选择代理{% endblock %}
+{% block content %}
+<div class="dashboard-grid">
+    <div class="stat-card">
+        <div class="stat-icon icon-purple">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12H21"/><path d="M12 3c3 4 3 14 0 18"/><path d="M12 3c-3 4-3 14 0 18"/></svg>
+        </div>
+        <div class="stat-info">
+            <span class="stat-label">当前模式</span>
+            <span class="stat-value" id="stat-mode">--</span>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon icon-green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h6"/></svg>
+        </div>
+        <div class="stat-info">
+            <span class="stat-label">代理域名</span>
+            <span class="stat-value" id="stat-proxy-count">--</span>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon icon-orange">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+        </div>
+        <div class="stat-info">
+            <span class="stat-label">绕过域名</span>
+            <span class="stat-value" id="stat-bypass-count">--</span>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon icon-blue">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+        </div>
+        <div class="stat-info">
+            <span class="stat-label">已解析 IP</span>
+            <span class="stat-value" id="stat-resolved-count">--</span>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-row">
+    <div class="card panel-info">
+        <h3 class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 L2 7 L12 12 L22 7 Z"/><path d="M2 17 L12 22 L22 17"/><path d="M2 12 L12 17 L22 12"/></svg>
+            流量模式
+        </h3>
+        <p class="hint-text">黑名单模式默认全走代理，只绕过绕过列表；白名单模式默认直连，只代理代理列表。</p>
+        <div class="segmented" id="mode-toggle">
+            <button class="segment" data-mode="blacklist" onclick="panel.setMode('blacklist')">黑名单模式</button>
+            <button class="segment" data-mode="whitelist" onclick="panel.setMode('whitelist')">白名单模式</button>
+        </div>
+        <div class="row-buttons">
+            <button class="btn btn-success" onclick="panel.applyRules()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+                应用规则
+            </button>
+            <button class="btn btn-ghost" data-loading="解析中..." onclick="panel.resolveNow()">立即解析域名</button>
+        </div>
+    </div>
+
+    <div class="card actions-card">
+        <h3 class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            域名说明
+        </h3>
+        <p class="hint-text">新增域名后会自动重解析并写入 iptables。IPv4 流量走 redsocks，IPv6 对被选域名执行 DROP，避免绕过代理。</p>
+    </div>
+</div>
+
+<div class="dashboard-row">
+    <div class="card panel-info">
+        <h3 class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v3"/><path d="M12 19v3"/><path d="M2 12h3"/><path d="M19 12h3"/></svg>
+            代理域名
+        </h3>
+        <div class="tag-add">
+            <input id="proxy-domain-input" placeholder="例如 gemini.google.com" spellcheck="false" />
+            <button class="btn btn-primary" onclick="panel.addDomain('proxy')">添加</button>
+        </div>
+        <div class="tag-box" id="proxy-domain-tags"></div>
+        <p class="empty-hint" id="proxy-domain-empty">还没有代理域名</p>
+    </div>
+
+    <div class="card panel-info">
+        <h3 class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9 7 9-7V5H3v4z"/><path d="M21 9v10H3V9"/></svg>
+            绕过域名
+        </h3>
+        <div class="tag-add">
+            <input id="bypass-domain-input" placeholder="例如 api.ip2free.com" spellcheck="false" />
+            <button class="btn btn-primary" onclick="panel.addDomain('bypass')">添加</button>
+        </div>
+        <div class="tag-box" id="bypass-domain-tags"></div>
+        <p class="empty-hint" id="bypass-domain-empty">还没有绕过域名</p>
+    </div>
+</div>
+
+<div class="card">
+    <h3 class="card-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2H4a2 2 0 00-2 2v4"/><path d="M16 2h4a2 2 0 012 2v4"/><path d="M8 22H4a2 2 0 01-2-2v-4"/><path d="M16 22h4a2 2 0 002-2v-4"/></svg>
+        域名解析结果
+    </h3>
+    <pre class="pre-block" id="resolved-output">加载中...</pre>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>panel.initDomains();</script>
+{% endblock %}

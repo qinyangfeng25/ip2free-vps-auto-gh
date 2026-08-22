@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ip2free 管理面板{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="layout">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <circle cx="16" cy="16" r="14" stroke="#10b981" stroke-width="2" fill="none"/>
+                        <path d="M10 16 L14 20 L22 12" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </svg>
+                    <span>ip2free</span>
+                </div>
+                <span class="sidebar-subtitle">VPS 住宅代理面板</span>
+            </div>
+            <div class="nav-menu">
+                <a href="/" class="nav-item {% if active == 'dashboard' %}active{% endif %}">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                    <span>总览</span>
+                </a>
+                <a href="/domains" class="nav-item {% if active == 'domains' %}active{% endif %}">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 L2 7 L12 12 L22 7 Z"/><path d="M2 17 L12 22 L22 17"/><path d="M2 12 L12 17 L22 12"/></svg>
+                    <span>域名规则</span>
+                </a>
+                <a href="/proxies" class="nav-item {% if active == 'proxies' %}active{% endif %}">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12 H21"/><path d="M12 3 C15 7 15 17 12 21"/><path d="M12 3 C9 7 9 17 12 21"/></svg>
+                    <span>代理选择</span>
+                </a>
+                <a href="/iptables" class="nav-item {% if active == 'iptables' %}active{% endif %}">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4 L20 4 L20 10 L4 10 Z"/><path d="M4 14 L20 14 L20 20 L4 20 Z"/><path d="M8 10 L8 14"/><path d="M16 10 L16 14"/></svg>
+                    <span>规则查看</span>
+                </a>
+                <a href="/logs" class="nav-item {% if active == 'logs' %}active{% endif %}">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4 H16 L20 8 V20 H4 Z"/><path d="M16 4 V8 H20"/><path d="M8 12 H16"/><path d="M8 16 H14"/></svg>
+                    <span>日志</span>
+                </a>
+                <a href="/settings" class="nav-item {% if active == 'settings' %}active{% endif %}">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+                    <span>设置</span>
+                </a>
+            </div>
+            <div class="sidebar-footer">
+                <button class="btn btn-sm btn-ghost" onclick="panel.logout()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+                    退出
+                </button>
+            </div>
+        </nav>
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1 class="page-title">{% block page_title %}{% endblock %}</h1>
+                    <span class="breadcrumb">{% block breadcrumb %}{% endblock %}</span>
+                </div>
+                <div class="topbar-right">
+                    <span class="badge badge-live" id="live-status">
+                        <span class="dot"></span>
+                        <span class="text">运行中</span>
+                    </span>
+                </div>
+            </header>
+            <div class="content-area">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+    <div class="toast-container" id="toast-container"></div>
+    <script src="/static/js/panel.js"></script>
+    {% block extra_js %}{% endblock %}
+    <script>
+        panel.init();
+        panel.loadStatus();
+    </script>
+</body>
+</html>

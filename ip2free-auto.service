@@ -1,0 +1,14 @@
+[Unit]
+Description=ip2free VPS 住宅代理自动更新
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/ip2free-auto
+ExecStart=/opt/ip2free-auto/venv/bin/python3 /opt/ip2free-auto/ip2free_agent.py run --force
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

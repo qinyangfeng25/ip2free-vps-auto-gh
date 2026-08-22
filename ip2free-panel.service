@@ -1,0 +1,19 @@
+[Unit]
+Description=ip2free management panel
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/ip2free-auto
+ExecStart=/opt/ip2free-auto/venv/bin/python3 /opt/ip2free-auto/panel.py
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+Environment="PANEL_PASSWORD="
+Environment="PANEL_USERNAME=admin"
+
+[Install]
+WantedBy=multi-user.target

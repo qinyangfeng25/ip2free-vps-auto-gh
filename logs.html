@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% set active = 'logs' %}
+{% block title %}日志{% endblock %}
+{% block page_title %}日志{% endblock %}
+{% block breadcrumb %}日志 / 最近 200 条{% endblock %}
+{% block content %}
+<div class="toolbar">
+    <button class="btn btn-ghost" onclick="panel.loadLogs()">刷新日志</button>
+    <input class="toolbar-input" id="log-filter" placeholder="过滤关键词" oninput="panel.filterLogs()" />
+</div>
+<div class="card" style="margin-top:18px">
+    <div class="logs-view" id="logs-view">加载中...</div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>panel.initLogs();</script>
+{% endblock %}

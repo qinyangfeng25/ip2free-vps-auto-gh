@@ -1,0 +1,11 @@
+[Unit]
+Description=ip2free VPS 住宅代理定时刷新（每天 09:00 / 15:00 / 20:00）
+
+[Timer]
+OnCalendar=*-*-* 09:00:00
+OnCalendar=*-*-* 15:00:00
+OnCalendar=*-*-* 20:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

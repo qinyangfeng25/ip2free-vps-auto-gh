@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - ip2free 管理面板</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        .login-page{
+            display:flex;align-items:center;justify-content:center;
+            min-height:100vh;background:#0f172a;color:#e2e8f0;
+            font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+        }
+        .login-card{
+            width:360px;padding:36px;background:#1e293b;border-radius:12px;
+            box-shadow:0 4px 24px rgba(0,0,0,0.4);text-align:center;
+        }
+        .login-card h2{margin:0 0 4px;font-size:20px;color:#f1f5f9}
+        .login-card .subtitle{font-size:13px;color:#94a3b8;margin-bottom:24px}
+        .login-card input{
+            width:100%;padding:12px 14px;margin-bottom:14px;background:#0f172a;
+            border:1px solid #334155;border-radius:8px;color:#f1f5f9;font-size:14px;
+            outline:none;transition:border-color .2s;
+        }
+        .login-card input:focus{border-color:#10b981}
+        .login-card button{
+            width:100%;padding:12px;background:#10b981;border:none;border-radius:8px;
+            color:#fff;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s;
+        }
+        .login-card button:hover{background:#059669}
+        .login-error{color:#ef4444;font-size:13px;margin-bottom:12px;min-height:18px}
+        .login-logo{width:48px;height:48px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center}
+    </style>
+</head>
+<body>
+    <div class="login-page">
+        <div class="login-card">
+            <div class="login-logo">
+                <svg width="48" height="48" viewBox="0 0 32 32" fill="none">
+                    <circle cx="16" cy="16" r="14" stroke="#10b981" stroke-width="2" fill="none"/>
+                    <path d="M10 16 L14 20 L22 12" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                </svg>
+            </div>
+            <h2>ip2free 管理面板</h2>
+            <p class="subtitle">VPS 住宅代理控制面板</p>
+            <div class="login-error" id="login-error">{{ error }}</div>
+            <form method="POST" action="/login">
+                <input type="text" name="username" placeholder="账号" required autofocus>
+                <input type="password" name="password" placeholder="密码" required>
+                <button type="submit">登录</button>
+            </form>
+        </div>
+    </div>
+    <script src="/static/js/panel.js"></script>
+    {% if error %}
+    <script>
+        document.getElementById('login-error').textContent = '{{ error }}';
+    </script>
+    {% endif %}
+</body>
+</html>

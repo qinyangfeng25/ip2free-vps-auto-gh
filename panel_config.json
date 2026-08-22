@@ -1,0 +1,39 @@
+{
+  "proxy_enabled": true,
+  "proxy_mode": "blacklist",
+  "proxy_domains": [],
+  "bypass_domains": [
+    "<example>.example"
+  ],
+  "ipv6_block_domains": [
+    "oauthaccountmanager.googleapis.com",
+    "lh3.googleusercontent.com",
+    "robinfrontend-pa.googleapis.com",
+    "notifications-pa.googleapis.com",
+    "subscriptionsfirstparty-pa.googleapis.com",
+    "signaler-pa.googleapis.com",
+    "people-pa.googleapis.com",
+    "oauth2.googleapis.com",
+    "www.googleapis.com",
+    "gemini.google.com",
+    "notebooklm-pa.googleapis.com",
+    "notebooklm.google.com"
+  ],
+  "proxy_strategy": "first",
+  "proxy_source": "both",
+  "max_retries": 5,
+  "redsocks_port": 12345,
+  "dns_ttl_seconds": 300,
+  "auto_refresh_enabled": true,
+  "auto_refresh_times": [
+    "09:00",
+    "15:00",
+    "20:00"
+  ],
+  "panel_port": 8889,
+  "https_port": 8899,
+  "panel_username": "admin",
+  "panel_password": "",
+  "panel_secret": "",
+  "log_file": "data/panel.log"
+}
